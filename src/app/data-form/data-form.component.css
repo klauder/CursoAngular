@@ -1,0 +1,4 @@
+label.is-invalid{
+    color: red;
+    font-style: italic;
+}

@@ -1,0 +1,148 @@
+
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <!-- Até aula 82
+        <div class="form-group">
+        <label for="nome" class="font-weight-bold" >Nome</label>
+        <input type="text" class="form-control" id="nome" 
+        [class.is-invalid]="nome.invalid && (nome.touched || nome.dirty)" 
+        placeholder="Informe seu nome" name="nome" [ngModel]="usuario.nome"
+        required #nome="ngModel" minlength="5" >
+        
+        <div *ngIf="nome.errors?.required" class="invalid-feedback" >
+            O campo <b>Nome</b> é obrigatório.
+        </div>    
+        <div *ngIf="nome.errors?.minlength" class="invalid-feedback" >
+            O campo <b>Nome</b> deve ter no mínimo 5 caracteres. 
+        </div>    
+    </div>-->
+    <div class="form-group">
+        <label for="nome" class="font-weight-bold" >Nome</label>
+        <input type="text" class="form-control" id="nome" 
+        [ngClass]="aplicaCssErro(nome)"
+        placeholder="Informe seu nome" name="nome" [ngModel]="usuario.nome"
+        required #nome="ngModel" minlength="5" >
+                
+        <div *ngIf="nome.errors?.required" class="invalid-feedback" >
+            O campo <b>Nome</b> é obrigatório.
+        </div> 
+
+        <div *ngIf="nome.errors?.minlength" class="invalid-feedback" >
+            O campo <b>Nome</b> deve ter no mínimo 5 caracteres. 
+        </div>    
+    </div>
+    
+    <div class="form-group">
+        <label for="email" class="font-weight-bold" >Email</label>
+        <input type="email" class="form-control" id="email" 
+        [ngClass]="aplicaCssErro(email)"
+        placeholder="nome@email.com" name="email" [ngModel]="usuario.email"
+        required email #email="ngModel" >
+
+        <div *ngIf="email.errors?.required" class="invalid-feedback" >
+            <small>O campo <b>Email</b> é obrigatório.</small>
+        </div>   
+
+        <div *ngIf="email.errors?.email" class="invalid-feedback" >
+            <small>Favor inserir um e-mail válido. </small>
+        </div>  
+    </div>
+
+    <div ngModelGroup="endereco"> 
+        <div class="form-row">
+            <div class="form-group col-sm-4">
+                <label for="cep" class="font-weight-bold" >CEP</label>
+                <input id="cep" type="text" class="form-control" 
+                [ngClass]="aplicaCssErro(cep)"
+                placeholder="99999-999" pattern="[0-9]{5}-[0-9]{3}" name="cep" [ngModel]="usuario.cep"
+                required #cep="ngModel" minlength="9" maxlength="9"
+                (blur)="consultaCEP($event.target.value, f)" >
+                
+                <div *ngIf="cep.errors?.required" class="invalid-feedback" >
+                    <small>O campo <b>CEP</b> é obrigatório.</small>
+                </div>
+
+                <div *ngIf="(cep.errors?.minlength || cep.errors?.pattern)" class="invalid-feedback" >
+                    Favor inserir um <b>CEP</b> válido.
+                </div>   
+            </div>    
+        </div>
+
+        <div class="form-group">
+            <label for="rua" class="font-weight-bold">Rua</label>
+            <input id="rua" type="text" class="form-control" 
+            [ngClass]="aplicaCssErro(rua)"
+            placeholder="" name="rua" [ngModel]="usuario.rua"
+            required #rua="ngModel" maxlength="255" >
+            
+            <div *ngIf="rua.errors?.required" class="invalid-feedback" >
+                O campo <b>Rua</b> é obrigatório.
+            </div>    
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-sm-3">
+                <label for="numero" class="font-weight-bold">Número</label>
+                <input id="numero" type="number" class="form-control" aria-describedby="numeroHelp" 
+                [ngClass]="aplicaCssErro(numero)" min="0"
+                placeholder="" name="numero" [ngModel]="usuario.numero"
+                required #numero="ngModel" >
+                <small id="numeroHelp" class="form-text text-muted">
+                    Insira 0 (zero) se não possui número.
+                </small>
+                
+                <div *ngIf="numero.errors?.required" class="invalid-feedback" >
+                    O campo <b>Número</b> é obrigatório.
+                </div>    
+            </div>
+    
+            <div class="form-group col-sm-6">
+                <label for="complemento" class="font-weight-bold">Complemento</label>
+                <input id="complemento" type="text" class="form-control" placeholder="" 
+                name="complemento" [ngModel]="usuario.complemento" #complemento="ngModel" />    
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-sm-4">
+                <label for="bairro" class="font-weight-bold">Bairro</label>
+                <input id="bairro" type="text" class="form-control" 
+                [ngClass]="aplicaCssErro(bairro)"
+                placeholder="" name="bairro" [ngModel]="usuario.bairro"
+                required #bairro="ngModel" maxlength="255" >
+                
+                <div *ngIf="bairro.errors?.required" class="invalid-feedback" >
+                    O campo <b>Bairro</b> é obrigatório.
+                </div>    
+            </div>
+
+            
+            <div class="form-group col-sm-6">
+                <label for="cidade" class="font-weight-bold">Cidade</label>
+                <input id="cidade" type="text" class="form-control" 
+                [ngClass]="aplicaCssErro(cidade)"
+                placeholder="" name="cidade" [ngModel]="usuario.cidade"
+                required #cidade="ngModel" maxlength="255" >
+                
+                <div *ngIf="cidade.errors?.required" class="invalid-feedback" >
+                    O campo <b>Cidade</b> é obrigatório.
+                </div>    
+            </div>
+
+            <div class="form-group col-sm-2">
+                <label for="estado" class="font-weight-bold">Estado</label>
+                <input id="estado" type="text" class="form-control" 
+                [ngClass]="aplicaCssErro(estado)"
+                placeholder="" name="estado" [ngModel]="usuario.estado"
+                required #estado="ngModel" maxlength="255" >
+                
+                <div *ngIf="estado.errors?.required" class="invalid-feedback" >
+                    O campo <b>Estado</b> é obrigatório.
+                </div>    
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!f.valid" >Submit</button>
+
+    <app-form-debug [form]="f"></app-form-debug>
+
+</form>

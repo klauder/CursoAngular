@@ -1,0 +1,16 @@
+
+
+<div class="mt-3" *ngIf="form">
+    <div>
+        Detallhes do Form
+    </div>
+    <pre>
+        Form válido: {{ form.valid }}
+    </pre>
+    <pre>
+        Form sumetido: {{ form.submitted }}
+    </pre>
+    <pre>
+        Valores: <br/> {{ form.value | json }}
+    </pre>
+</div>

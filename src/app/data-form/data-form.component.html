@@ -1,0 +1,131 @@
+
+<form [formGroup]="formulario" (ngSubmit)="onSumit()">
+
+    <div class="form-group">
+        <label for="nome" class="font-weight-bold" [ngClass]="aplicaCssErro('nome')">Nome</label>
+        <input type="text" class="form-control" id="nome" [ngClass]="aplicaCssErro('nome')"
+        placeholder="Informe seu nome" formControlName="nome">   
+
+        <div *ngIf="campo('nome')?.errors?.required" class="invalid-feedback" >
+            O campo <b>Nome</b> é obrigatório.
+        </div> 
+        <div *ngIf="(campo('nome')?.errors?.minlength || campo('nome')?.errors?.maxlength)" class="invalid-feedback" >
+            O campo <b>Nome</b> deve conter entre 3 e 10 caracteres. 
+        </div> 
+       
+    </div>
+    
+    <div class="form-group">
+        <label for="email" class="font-weight-bold" >Email</label>
+        <input type="email" class="form-control" id="email"  [ngClass]="aplicaCssErro('email')"       
+        placeholder="nome@email.com" formControlName="email">
+        
+        <div *ngIf="campo('email')?.errors?.required" class="invalid-feedback" >
+            O campo <b>Email</b> é obrigatório.
+        </div> 
+
+        <div *ngIf="campo('email')?.errors?.email" class="invalid-feedback" >
+            Favor inserir um e-mail válido.
+        </div> 
+    </div>
+    
+    <div formGroupName="endereco" > 
+        <div class="form-row">
+            <div class="form-group col-sm-4">
+                <label for="cep" class="font-weight-bold" >CEP</label>
+                <input id="cep" type="text" class="form-control" 
+                [ngClass]="aplicaCssErro('endereco.cep')"
+                placeholder="99999-999" formControlName="cep"
+                (blur)="consultaCEP()" >
+                
+                <div *ngIf="campo('endereco.cep')?.errors?.required" class="invalid-feedback" >
+                    O campo <b>CEP</b> é obrigatório.
+                </div>
+
+                <div *ngIf="(campo('endereco.cep').errors?.minlength || campo('endereco.cep').errors?.pattern)" class="invalid-feedback" >
+                    Favor inserir um <b>CEP</b> válido.
+                </div>   
+            </div>    
+        </div>
+
+        <div class="form-group">
+            <label for="rua" class="font-weight-bold">Rua</label>
+            <input id="rua" type="text" class="form-control" 
+            [ngClass]="aplicaCssErro('endereco.rua')"
+            placeholder="" formControlName="rua">
+            
+            <div *ngIf="campo('endereco.rua').errors?.required" class="invalid-feedback" >
+                O campo <b>Rua</b> é obrigatório.
+            </div>             
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-sm-3">
+                <label for="numero" class="font-weight-bold">Número</label>
+                <input id="numero" type="number" class="form-control" aria-describedby="numeroHelp" 
+                [ngClass]="aplicaCssErro('endereco.numero')" formControlName="numero">
+                <small id="numeroHelp" class="form-text text-muted">
+                    Insira 0 (zero) se não possui número.
+                </small>
+                
+                <div *ngIf="campo('endereco.numero').errors?.required" class="invalid-feedback" >
+                    O campo <b>Número</b> é obrigatório.
+                </div>    
+            </div>
+    
+            <div class="form-group col-sm-6">
+                <label for="complemento" class="font-weight-bold">Complemento</label>
+                <input id="complemento" type="text" class="form-control" placeholder="" 
+                formControlName="complemento" />    
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-sm-4">
+                <label for="bairro" class="font-weight-bold">Bairro</label>
+                <input id="bairro" type="text" class="form-control" 
+                [ngClass]="aplicaCssErro('endereco.bairro')"
+                placeholder="" formControlName="bairro" >
+                
+                <div *ngIf="campo('endereco.bairro').errors?.required" class="invalid-feedback" >
+                    O campo <b>Bairro</b> é obrigatório.
+                </div>    
+            </div>
+
+            
+            <div class="form-group col-sm-6">
+                <label for="cidade" class="font-weight-bold">Cidade</label>
+                <input id="cidade" type="text" class="form-control" 
+                [ngClass]="aplicaCssErro('endereco.cidade')"
+                placeholder="" formControlName="cidade" >
+                
+                <div *ngIf="campo('endereco.cidade').errors?.required" class="invalid-feedback" >
+                    O campo <b>Cidade</b> é obrigatório.
+                </div>    
+            </div>
+
+            <div class="form-group col-sm-2">
+                <label for="estado" class="font-weight-bold">Estado</label>
+                <input id="estado" type="text" class="form-control" 
+                [ngClass]="aplicaCssErro('endereco.estado')"
+                placeholder="" formControlName="estado">
+                
+                <div *ngIf="campo('endereco.estado').errors?.required" class="invalid-feedback" >
+                    O campo <b>Estado</b> é obrigatório.
+                </div>    
+                
+                <div *ngIf="(campo('endereco.estado').errors?.minlength || campo('endereco.estado').errors?.maxlength)" class="invalid-feedback" >
+                        O campo <b>Estado</b> deve conter 2 caracteres.
+                    </div>  
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-light" (click)="resetar()">Cancelar</button>
+
+    <div class="mt-4">
+        <app-form-debug [form]="formulario"></app-form-debug>
+    </div>
+
+</form>
