@@ -12,7 +12,7 @@ export class ConsultaCepService {
 
   consultaCEP(cep: string) {
     // Variável cep somente com dígitos.
-    cep = cep.replace(/\D/g, '')
+    cep = cep.replace(/\D/g, '');
 
     // Expressão regular para validar o CEP.
     const validacep = /^[0-9]{8}$/;
